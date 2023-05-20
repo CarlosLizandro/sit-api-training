@@ -13,15 +13,26 @@ public class ClientService {
     public ClientService(){
         this.clientLot = new ArrayList<>();
     }
-    //TODO: US 01: As a user, I want to be able to see the list of all the clients, so I can have an overview of the current client status.
+
     public List<Client> getAllClients(){
         return this.clientLot;
     }
 
-    //TODO: US 02 As a user, I want to be able to add a client to the client lot, so I can register a client.
     public void addClient(Client client){
         this.clientLot.add(client);
     }
+    public void changeCustomerState(int customerId, String newState) {
+        // Get the customer from the database.
+        Client client = this.clientLot.stream()
+                .filter(c -> c.getDNI() == customerId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No se encuentra el cliente"));
 
+        // Cambia el estado actual del cliente
+        client.setEstado(client.getEstado());
+
+        // Se guarda el estado del cliente
+        this.clientLot.add(client);
+    }
 }
 
